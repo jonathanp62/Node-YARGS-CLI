@@ -1,5 +1,5 @@
 /**
- * (#)index.mjs 1.2.0   08/29/2023
+ * (#)index.mjs 1.0.0   08/29/2023
  *
  * Copyright (c) Jonathan M. Parker
  * 324 Lantana Drive
@@ -9,6 +9,13 @@
 
 import Yargs from "yargs";
 
+/**
+ * Parse the string into
+ * name and age values.
+ *
+ * @param   {String} str The string
+ * @returns { String, any } The name and age
+ */
 export function parseString(str) {
     const args = Yargs(str).argv;
 
@@ -18,6 +25,13 @@ export function parseString(str) {
     return { name, age }
 }
 
+/**
+ * Parse the string into
+ * name and age values and
+ * log them to the console.
+ *
+ * @param  {String} str The string
+ */
 function parseAndLogString(str) {
     let { name, age } = parseString(str)
 
@@ -25,6 +39,9 @@ function parseAndLogString(str) {
     console.log(age);
 }
 
+/**
+ * The handle function.
+ */
 function handle() {
     parseAndLogString('--name Jonathan --age 61')
     parseAndLogString('--name Sophia --age 32')
