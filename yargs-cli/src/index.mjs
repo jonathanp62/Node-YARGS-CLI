@@ -7,22 +7,20 @@
  * All Rights Reserved.
  */
 
+import { commandLineHandlers } from "./command-line-handlers.mjs";
+import { hideBin } from "yargs/helpers";
+
 import Yargs from "yargs";
-import { hideBin } from "yargs/helpers"
 
-/**
- * An enumeration of command line handlers
- *
- * @type {{COMPLEX: number, SIMPLE: number}}
+/*
+ * @todo
+ * Create a config file and set commandLineHandling
+ * with the result of the value in the configuration
+ * A default positional should be defined to enable
+ * the location of the configuration file.
  */
-const CommandLineHandlers = {
-    "COMPLEX" : 1,
-    "SIMPLE"  : 2
-}
 
-// @todo Replace with JSON from a file
-
-const commandLineHandling = CommandLineHandlers.COMPLEX
+const commandLineHandling = commandLineHandlers.COMPLEX;
 
 /**
  * Parse the string into
@@ -37,7 +35,7 @@ export function parseString(str) {
     let name = args.name;
     let age = args.age;
 
-    return { name, age }
+    return { name, age };
 }
 
 /**
@@ -48,7 +46,7 @@ export function parseString(str) {
  * @param  {String} str The string
  */
 function parseAndLogString(str) {
-    let { name, age } = parseString(str)
+    let { name, age } = parseString(str);
 
     console.log(name);
     console.log(age);
@@ -59,16 +57,16 @@ function parseAndLogString(str) {
  * the command line arguments.
  */
 function simpleCommandLine() {
-    const args = Yargs(hideBin(process.argv)).argv
+    const args = Yargs(hideBin(process.argv)).argv;
 
-    let ships = args.ships
-    let distance = args.distance
+    let ships = args.ships;
+    let distance = args.distance;
 
     if (ships !== undefined)
-        console.log('Ships   : ' + ships)
+        console.log(`Ships   : ${ships}`);
 
     if (distance !== undefined)
-        console.log('Distance: ' + distance)
+        console.log(`Distance: ${distance}`);
 }
 
 /**
@@ -94,37 +92,37 @@ function complexCommandLine() {
                 })
         }, function (argv) {
             if (argv.verbose)
-                console.info(`Verbose logging is enabled`)
+                console.info(`Verbose logging is enabled`);
         })
         .default('ships', 5)
         .default('distance', 50)
         .help()
-        .argv
+        .argv;
 
-    let ships = args.ships
-    let distance = args.distance
-    let verbose = args.verbose
+    let ships = args.ships;
+    let distance = args.distance;
+    let verbose = args.verbose;
 
-    console.log('Ships   : ' + ships)
-    console.log('Distance: ' + distance)
+    console.log(`Ships   : ${ships}`);
+    console.log(`Distance: ${distance}`);
 
     if (verbose)
-        console.log('I am verbose')
+        console.log('I am verbose');
 }
 
 /**
  * The handle function.
  */
 function handle() {
-    parseAndLogString('--name Jonathan --age 61')
-    parseAndLogString('--name Dena --age 68')
+    parseAndLogString('--name Jonathan --age 61');
+    parseAndLogString('--name Dena --age 68');
 
-    if (commandLineHandling === CommandLineHandlers.SIMPLE)
-        simpleCommandLine()
-    else if (commandLineHandling === CommandLineHandlers.COMPLEX)
-        complexCommandLine()
+    if (commandLineHandling === commandLineHandlers.SIMPLE)
+        simpleCommandLine();
+    else if (commandLineHandling === commandLineHandlers.COMPLEX)
+        complexCommandLine();
     else
-        console.log("Unrecognized command line handler")
+        console.log("Unrecognized command line handler");
 }
 
-handle()
+handle();
