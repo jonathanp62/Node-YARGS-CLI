@@ -11,6 +11,20 @@ import Yargs from "yargs";
 import { hideBin } from "yargs/helpers"
 
 /**
+ * An enumeration of command line handlers
+ *
+ * @type {{COMPLEX: number, SIMPLE: number}}
+ */
+const CommandLineHandlers = {
+    "COMPLEX" : 1,
+    "SIMPLE"  : 2
+}
+
+// @todo Replace with JSON from a file
+
+const commandLineHandling = CommandLineHandlers.COMPLEX
+
+/**
  * Parse the string into
  * name and age values.
  *
@@ -62,7 +76,40 @@ function simpleCommandLine() {
  * the command line arguments.
  */
 function complexCommandLine() {
+    const args = Yargs(hideBin(process.argv))
+        .command('sail [ships] [distance]', 'sail the seas', (yargs) => {
+            return yargs
+                .positional('ships', {
+                    describe: 'how many ships',
+                    default: 5
+                })
+                .positional('distance', {
+                    describe: 'how far to travel',
+                    default: 50
+                })
+                .option('verbose', {
+                    alias: 'v',
+                    type: 'boolean',
+                    description: 'Run with verbose logging'
+                })
+        }, function (argv) {
+            if (argv.verbose)
+                console.info(`Verbose logging is enabled`)
+        })
+        .default('ships', 5)
+        .default('distance', 50)
+        .help()
+        .argv
 
+    let ships = args.ships
+    let distance = args.distance
+    let verbose = args.verbose
+
+    console.log('Ships   : ' + ships)
+    console.log('Distance: ' + distance)
+
+    if (verbose)
+        console.log('I am verbose')
 }
 
 /**
@@ -72,8 +119,12 @@ function handle() {
     parseAndLogString('--name Jonathan --age 61')
     parseAndLogString('--name Dena --age 68')
 
-    simpleCommandLine()
-    complexCommandLine()
+    if (commandLineHandling === CommandLineHandlers.SIMPLE)
+        simpleCommandLine()
+    else if (commandLineHandling === CommandLineHandlers.COMPLEX)
+        complexCommandLine()
+    else
+        console.log("Unrecognized command line handler")
 }
 
 handle()
