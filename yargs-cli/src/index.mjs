@@ -8,6 +8,7 @@
  */
 
 import Yargs from "yargs";
+import { hideBin } from "yargs/helpers"
 
 /**
  * Parse the string into
@@ -40,12 +41,39 @@ function parseAndLogString(str) {
 }
 
 /**
+ * A simple handling of
+ * the command line arguments.
+ */
+function simpleCommandLine() {
+    const args = Yargs(hideBin(process.argv)).argv
+
+    let ships = args.ships
+    let distance = args.distance
+
+    if (ships !== undefined)
+        console.log('Ships   : ' + ships)
+
+    if (distance !== undefined)
+        console.log('Distance: ' + distance)
+}
+
+/**
+ * A complex handling of
+ * the command line arguments.
+ */
+function complexCommandLine() {
+
+}
+
+/**
  * The handle function.
  */
 function handle() {
     parseAndLogString('--name Jonathan --age 61')
-    parseAndLogString('--name Sophia --age 32')
+    parseAndLogString('--name Dena --age 68')
+
+    simpleCommandLine()
+    complexCommandLine()
 }
 
 handle()
-
