@@ -8,6 +8,7 @@
  */
 
 import { commandLineHandlers } from "./command-line-handlers.mjs";
+import { config } from "../config.mjs";
 import { hideBin } from "yargs/helpers";
 
 import Yargs from "yargs";
@@ -20,7 +21,7 @@ import Yargs from "yargs";
  * the location of the configuration file.
  */
 
-const commandLineHandling = commandLineHandlers.COMPLEX;
+let commandLineHandling;
 
 /**
  * Parse the string into
@@ -111,18 +112,39 @@ function complexCommandLine() {
 }
 
 /**
+ * Set the command line handling option.
+ *
+ * @returns {boolean}
+ */
+function setCommandLineHandling() {
+    let result = true;
+
+    if (config.commandLineHandling.toLowerCase() === 'complex')
+        commandLineHandling = commandLineHandlers.COMPLEX;
+    else if (config.commandLineHandling.toLowerCase() === 'simple')
+        commandLineHandling = commandLineHandlers.SIMPLE;
+    else
+        result = false;
+
+    return result;
+}
+
+/**
  * The handle function.
  */
 function handle() {
-    parseAndLogString('--name Jonathan --age 61');
-    parseAndLogString('--name Dena --age 68');
+    if (setCommandLineHandling()) {
+        parseAndLogString('--name Jonathan --age 61');
+        parseAndLogString('--name Dena --age 68');
 
-    if (commandLineHandling === commandLineHandlers.SIMPLE)
-        simpleCommandLine();
-    else if (commandLineHandling === commandLineHandlers.COMPLEX)
-        complexCommandLine();
-    else
-        console.log("Unrecognized command line handler");
+        if (commandLineHandling === commandLineHandlers.SIMPLE)
+            simpleCommandLine();
+        else if (commandLineHandling === commandLineHandlers.COMPLEX)
+            complexCommandLine();
+        else
+            console.log("Unrecognized command line handler");
+    } else
+        console.log(`Unrecognized command line handling configuration: ${config.commandLineHandling}`);
 }
 
 handle();
