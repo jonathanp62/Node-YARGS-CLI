@@ -78,11 +78,11 @@ function complexCommandLine() {
             return yargs
                 .positional('ships', {
                     describe: 'how many ships',
-                    default: 5
+                    default: config.defaults.ships
                 })
                 .positional('distance', {
                     describe: 'how far to travel',
-                    default: 50
+                    default: config.defaults.distance
                 })
                 .option('verbose', {
                     alias: 'v',
@@ -93,8 +93,8 @@ function complexCommandLine() {
             if (argv.verbose)
                 console.info(`Verbose logging is enabled`);
         })
-        .default('ships', 5)
-        .default('distance', 50)
+        .default('ships', config.defaults.ships)
+        .default('distance', config.defaults.distance)
         .help()
         .argv;
 
@@ -127,8 +127,9 @@ function getCommandLineHandling() {
  * The handle function.
  */
 function handle() {
-    parseAndLogString('--name Jonathan --age 61');
-    parseAndLogString('--name Dena --age 68');
+    for (const person of config.people) {
+        parseAndLogString(`--name ${person.name} --age ${person.age}`);
+    }
 
     switch(getCommandLineHandling()) {
         case commandLineHandlers.SIMPLE:

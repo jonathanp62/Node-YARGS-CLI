@@ -13,5 +13,24 @@
  * @type {{commandLineHandling: string}}
  */
 export const config = {
-    commandLineHandling: 'complex'
+    commandLineHandling: 'complex',
+    defaults: {
+        distance: 50,
+        ships: 5
+    },
+    people:
+        [
+            {
+                name: 'Jonathan',
+                age: 61
+            },
+            {
+                name: 'Dena',
+                age: 68
+            },
+            {
+                name: 'Lauren',
+                age: 34
+            }
+        ]
 };
