@@ -13,6 +13,7 @@
  * @type {{COMPLEX: number, SIMPLE: number}}
  */
 export const commandLineHandlers = {
-    "COMPLEX" : 1,
-    "SIMPLE"  : 2
+    "UNDEFINED" : 0,
+    "COMPLEX"   : 1,
+    "SIMPLE"    : 2
 };

@@ -21,8 +21,6 @@ import Yargs from "yargs";
  * the location of the configuration file.
  */
 
-let commandLineHandling;
-
 /**
  * Parse the string into
  * name and age values.
@@ -114,37 +112,37 @@ function complexCommandLine() {
 /**
  * Set the command line handling option.
  *
- * @returns {boolean}
+ * @returns {number}
  */
-function setCommandLineHandling() {
-    let result = true;
-
+function getCommandLineHandling() {
     if (config.commandLineHandling.toLowerCase() === 'complex')
-        commandLineHandling = commandLineHandlers.COMPLEX;
+        return commandLineHandlers.COMPLEX;
     else if (config.commandLineHandling.toLowerCase() === 'simple')
-        commandLineHandling = commandLineHandlers.SIMPLE;
+        return commandLineHandlers.SIMPLE;
     else
-        result = false;
-
-    return result;
+        return commandLineHandlers.UNDEFINED;
 }
 
 /**
  * The handle function.
  */
 function handle() {
-    if (setCommandLineHandling()) {
-        parseAndLogString('--name Jonathan --age 61');
-        parseAndLogString('--name Dena --age 68');
+    parseAndLogString('--name Jonathan --age 61');
+    parseAndLogString('--name Dena --age 68');
 
-        if (commandLineHandling === commandLineHandlers.SIMPLE)
+    switch(getCommandLineHandling()) {
+        case commandLineHandlers.SIMPLE:
             simpleCommandLine();
-        else if (commandLineHandling === commandLineHandlers.COMPLEX)
+            break;
+        case commandLineHandlers.COMPLEX:
             complexCommandLine();
-        else
-            console.log("Unrecognized command line handler");
-    } else
-        console.log(`Unrecognized command line handling configuration: ${config.commandLineHandling}`);
+            break;
+        case commandLineHandlers.UNDEFINED:
+            console.log(`Unrecognized command line handler: ${config.commandLineHandling}`);
+            break;
+        default:
+            throw new Error('Unexpected value returned from getCommandLineHandling()');
+    }
 }
 
 handle();
