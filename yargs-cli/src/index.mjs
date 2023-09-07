@@ -131,6 +131,10 @@ function handle() {
         parseAndLogString(`--name ${person.name} --age ${person.age}`);
     }
 
+    // The functional equivalent
+    
+    config.people.forEach((person) => parseAndLogString(`--name ${person.name} --age ${person.age}`));
+
     switch(getCommandLineHandling()) {
         case commandLineHandlers.SIMPLE:
             simpleCommandLine();
