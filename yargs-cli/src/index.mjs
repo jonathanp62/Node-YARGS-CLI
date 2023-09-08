@@ -13,14 +13,6 @@ import { hideBin } from "yargs/helpers";
 
 import Yargs from "yargs";
 
-/*
- * @todo
- * Create a config file and set commandLineHandling
- * with the result of the value in the configuration
- * A default positional should be defined to enable
- * the location of the configuration file.
- */
-
 /**
  * Parse the string into
  * name and age values.
